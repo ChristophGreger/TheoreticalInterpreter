@@ -6,6 +6,11 @@
 #ifndef THEORETICALINTERPRETER_MAIN_H
 #define THEORETICALINTERPRETER_MAIN_H
 
-#endif //THEORETICALINTERPRETER_MAIN_H
+#include <stdio.h>
+#include "lexical/lexicalanalyzer.h"
 
 int main(int argc, char *argv[]);
+
+#endif //THEORETICALINTERPRETER_MAIN_H
+
+

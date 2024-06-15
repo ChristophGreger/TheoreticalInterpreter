@@ -7,4 +7,6 @@ include_directories(.)
 
 add_executable(TheoreticalInterpreter
         main.c
-        main.h)
+        main.h
+        lexical/lexicalanalyzer.c
+        lexical/lexicalanalyzer.h)
