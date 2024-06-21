@@ -23,13 +23,13 @@ struct ASTNodeHelper *parseHelp(TokenStruct *firstToken) {
                 currentToken = body->nextToken;
                 break;
             case Increment:
-                currentNode->type = INCREMENT;
-                currentNode->value.increment = *((int *) currentToken->value);
+                currentNode->node->type = INCREMENT;
+                currentNode->node->value.increment = *((int *) currentToken->value);
                 currentToken = currentToken->next;
                 break;
             case Reset:
-                currentNode->type = RESET;
-                currentNode->value.reset = *((int *) currentToken->value);
+                currentNode->node->type = RESET;
+                currentNode->node->value.reset = *((int *) currentToken->value);
                 currentToken = currentToken->next;
                 break;
             case closecurly:

@@ -259,7 +259,7 @@ void printToken(TokenStruct *token) { //Funktion um Token auszugeben
     while (token->token != EOFT) {
         switch (token->token) {
             case Loop:
-                printf("Loop(x%d)\n", *((int *) token->value));
+                printf("Loop(x%d) {\n", *((int *) token->value));
                 break;
             case Increment:
                 printf("Increment x%d\n", *((int *) token->value));

@@ -11,7 +11,7 @@ typedef struct ASTNodeHelper {
     int error; //0 wenn kein Fehler, 1 wenn Fehler
     TokenStruct *nextToken;
     struct ASTNode *node;
-};
+} ASTNodeHelper;
 
 typedef struct ASTNode {
     enum { //enum für die verschiedenen Typen von Knoten
@@ -28,7 +28,7 @@ typedef struct ASTNode {
         int reset; //int für Reset
     } value;
     struct ASTNode *next; //Pointer auf den nächsten Knoten
-};
+} ASTNode;
 
 struct ASTNode *parse(TokenStruct *firstToken);
 
