@@ -21,6 +21,8 @@ int main(int argc, char *argv[]) {
 
     TokenStruct *tokenList = lexicalAnalysis(file); // Erstellt eine Liste von Tokens
 
+    printToken(tokenList);
+
     fclose(file); // Schließt die Datei
 
 

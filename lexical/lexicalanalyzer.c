@@ -80,6 +80,19 @@ TokenStruct *lexicalAnalysis(FILE *file) {
             case '\n': //newline
                 c = getc(file);
                 break;
+            case '/': //comment
+                c = getc(file);
+                if (c != '/') {
+                    currentToken->token = ERROR;
+                    currentToken->next = malloc(sizeof(TokenStruct));
+                    currentToken = currentToken->next;
+                    break;
+                }
+                while (c != '\n') {
+                    c = getc(file);
+                }
+                c = getc(file);
+                break;
 
             case 'l': //loop
                 if (!checkloop(file, c)) {
@@ -114,66 +127,57 @@ TokenStruct *lexicalAnalysis(FILE *file) {
                 currentToken = currentToken->next;
                 break;
 
-            case 'x': //increment, reset
-                XStruct *xstruct3 = checkforx(file, c);
-                if (xstruct3->x == -1) {
-                    currentToken->token = ERROR;
+            case 'x': { //increment, reset
+                    XStruct *xstruct3 = checkforx(file, c);
+                    if (xstruct3->x == -1) {
+                        currentToken->token = ERROR;
+                        c = xstruct3->next;
+                        currentToken->next = malloc(sizeof(TokenStruct));
+                        currentToken = currentToken->next;
+                        break;
+                    }
                     c = xstruct3->next;
-                    currentToken->next = malloc(sizeof(TokenStruct));
-                    currentToken = currentToken->next;
-                    break;
-                }
-                c = xstruct3->next;
-                while (c == ' ') {
-                    c = getc(file);
-                }
-                if (c != '=') { //increment
-                    if (c != '+') {
-                        currentToken->token = ERROR;
-                        currentToken->next = malloc(sizeof(TokenStruct));
-                        currentToken = currentToken->next;
-                        break;
-                    }
-                    c = getc(file);
                     while (c == ' ') {
                         c = getc(file);
                     }
-                    if (c != '1') {
-                        currentToken->token = ERROR;
-                        currentToken->next = malloc(sizeof(TokenStruct));
-                        currentToken = currentToken->next;
-                        break;
-                    }
-                    c = getc(file);
-                    while (c == ' ') {
+                    if (c != '=') { //increment
+                        if (c != '+') {
+                            currentToken->token = ERROR;
+                            currentToken->next = malloc(sizeof(TokenStruct));
+                            currentToken = currentToken->next;
+                            break;
+                        }
                         c = getc(file);
-                    }
-                    if (c != ';') {
-                        currentToken->token = ERROR;
-                        currentToken->next = malloc(sizeof(TokenStruct));
-                        currentToken = currentToken->next;
-                        break;
-                    }
-                    currentToken->token = Increment;
-                    int * value = malloc(sizeof(int));
-                    *value = xstruct3->x;
-                    currentToken->value = value;
-                    currentToken->next = malloc(sizeof(TokenStruct));
-                    currentToken = currentToken->next;
-                    c = getc(file);
-                    break;
-                }
-                c = getc(file);
-                while (c == ' ') {
-                    c = getc(file);
-                }
-                if (c == '0') { //reset
-                    c = getc(file);
-                    while (c == ' ') {
+                        while (c == ' ') {
+                            c = getc(file);
+                        }
+                        if (c != '=') {
+                            currentToken->token = ERROR;
+                            currentToken->next = malloc(sizeof(TokenStruct));
+                            currentToken = currentToken->next;
+                            break;
+                        }
                         c = getc(file);
-                    }
-                    if (c == ';') {
-                        currentToken->token = Reset;
+                        while (c == ' ') {
+                            c = getc(file);
+                        }
+                        if (c != '1') {
+                            currentToken->token = ERROR;
+                            currentToken->next = malloc(sizeof(TokenStruct));
+                            currentToken = currentToken->next;
+                            break;
+                        }
+                        c = getc(file);
+                        while (c == ' ') {
+                            c = getc(file);
+                        }
+                        if (c != ';') {
+                            currentToken->token = ERROR;
+                            currentToken->next = malloc(sizeof(TokenStruct));
+                            currentToken = currentToken->next;
+                            break;
+                        }
+                        currentToken->token = Increment;
                         int *value = malloc(sizeof(int));
                         *value = xstruct3->x;
                         currentToken->value = value;
@@ -181,6 +185,32 @@ TokenStruct *lexicalAnalysis(FILE *file) {
                         currentToken = currentToken->next;
                         c = getc(file);
                         break;
+                    }
+                    c = getc(file);
+                    while (c == ' ') {
+                        c = getc(file);
+                    }
+                    if (c == '0') { //reset
+                        c = getc(file);
+                        while (c == ' ') {
+                            c = getc(file);
+                        }
+                        if (c == ';') {
+                            currentToken->token = Reset;
+                            int *value = malloc(sizeof(int));
+                            *value = xstruct3->x;
+                            currentToken->value = value;
+                            currentToken->next = malloc(sizeof(TokenStruct));
+                            currentToken = currentToken->next;
+                            c = getc(file);
+                            break;
+                        } else {
+                            currentToken->token = ERROR;
+                            currentToken->next = malloc(sizeof(TokenStruct));
+                            currentToken = currentToken->next;
+                            c = getc(file);
+                            break;
+                        }
                     } else {
                         currentToken->token = ERROR;
                         currentToken->next = malloc(sizeof(TokenStruct));
@@ -188,12 +218,6 @@ TokenStruct *lexicalAnalysis(FILE *file) {
                         c = getc(file);
                         break;
                     }
-                } else {
-                    currentToken->token = ERROR;
-                    currentToken->next = malloc(sizeof(TokenStruct));
-                    currentToken = currentToken->next;
-                    c = getc(file);
-                    break;
                 }
             case '{': //opencurly
                 currentToken->token = opencurly;
@@ -225,7 +249,7 @@ void printToken(TokenStruct *token) { //Funktion um Token auszugeben
     while (token->token != EOFT) {
         switch (token->token) {
             case Loop:
-                printf("Loop(%d)\n", *((int *) token->value));
+                printf("Loop(x%d)\n", *((int *) token->value));
                 break;
             case Increment:
                 printf("Increment x%d\n", *((int *) token->value));
