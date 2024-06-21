@@ -9,16 +9,11 @@
 #include <stdio.h>
 
 typedef enum {
-    Equal, //value ist NULL
-    Delimiter, //value ist NULL
-    X, //value ist der int der Bezeichnung
+    Loop, //value ist die Nummer des x--> loop(x12) wird zu Loop mit value 12
+    Increment, //value ist Liste mit zwei ints, das x in das geschrieben wird und das x, das mit eins addiert wird
+    Reset, //value ist der int des x das Resetet wird
     opencurly, //value ist NULL
     closecurly, //value ist NULL
-    opennormal, //value ist NULL
-    closenormal, //value ist NULL
-    zero, //value ist NULL
-    one, //value ist NULL
-    plus, //value ist NULL
     ERROR, //value ist weitere Infos zum Fehler
     EOFT //value ist NULL
 } Token;
@@ -30,6 +25,10 @@ typedef struct TokenStruct{ //Implementation als linked List
 } TokenStruct;
 
 TokenStruct *lexicalAnalysis(FILE *file);
+
+void cleanUp(TokenStruct *firstToken);
+
+void printToken(TokenStruct *token); //TODO: Implementieren
 
 
 
