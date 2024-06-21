@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include "lexical/lexicalanalyzer.h"
+#include "Parser/parser.h"
 
 int main(int argc, char *argv[]);
 
