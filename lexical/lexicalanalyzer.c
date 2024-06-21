@@ -219,3 +219,33 @@ TokenStruct *lexicalAnalysis(FILE *file) {
     currentToken->token = EOFT;
     return firstToken;
 }
+
+
+void printToken(TokenStruct *token) { //Funktion um Token auszugeben
+    while (token->token != EOFT) {
+        switch (token->token) {
+            case Loop:
+                printf("Loop(%d)\n", *((int *) token->value));
+                break;
+            case Increment:
+                printf("Increment x%d\n", *((int *) token->value));
+                break;
+            case Reset:
+                printf("Reset x%d\n", *((int *) token->value));
+                break;
+            case opencurly:
+                printf("{\n");
+                break;
+            case closecurly:
+                printf("}\n");
+                break;
+            case ERROR:
+                printf("ERROR\n");
+                break;
+            default:
+                printf("ERROR\n");
+                break;
+        }
+        token = token->next;
+    }
+}

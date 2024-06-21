@@ -28,7 +28,7 @@ TokenStruct *lexicalAnalysis(FILE *file);
 
 void cleanUp(TokenStruct *firstToken);
 
-void printToken(TokenStruct *token); //TODO: Implementieren
+void printToken(TokenStruct *token);
 
 
 
