@@ -32,5 +32,8 @@ typedef struct ASTNode {
 
 struct ASTNode *parse(TokenStruct *firstToken);
 
+void printAST(struct ASTNode *node);
+
+
 
 #endif //THEORETICALINTERPRETER_PARSER_H

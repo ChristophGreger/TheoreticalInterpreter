@@ -23,6 +23,14 @@ int main(int argc, char *argv[]) {
 
     printToken(tokenList);
 
+    printf("AST wird erstellt...\n");
+
+    struct ASTNode *ast = parse(tokenList); // Erstellt den AST
+
+    printf("Jetzt kommt der AST:\n");
+
+    printAST(ast); // Gibt den AST aus
+
     fclose(file); // Schließt die Datei
 
 

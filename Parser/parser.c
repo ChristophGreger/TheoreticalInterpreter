@@ -10,6 +10,7 @@
 
 struct ASTNodeHelper *parseHelp(TokenStruct *firstToken) {
     struct ASTNodeHelper *firstNode = malloc(sizeof(struct ASTNodeHelper));
+    firstNode->node = malloc(sizeof(struct ASTNode));
     struct ASTNode *currentNode = firstNode->node;
     TokenStruct *currentToken = firstToken;
     while (currentToken->token != EOFT) {
@@ -51,4 +52,23 @@ struct ASTNodeHelper *parseHelp(TokenStruct *firstToken) {
 struct ASTNode *parse(TokenStruct *firstToken) {
     struct ASTNodeHelper *helper = parseHelp(firstToken);
     return helper->node;
+}
+
+void printAST(struct ASTNode *node) {
+    while (node != NULL) {
+        switch (node->type) {
+            case LOOP:
+                printf("Loop(%d) {\n", node->value.loop.x);
+                printAST(node->value.loop.body);
+                printf("}\n");
+                break;
+            case INCREMENT:
+                printf("Increment(%d)\n", node->value.increment);
+                break;
+            case RESET:
+                printf("Reset(%d)\n", node->value.reset);
+                break;
+        }
+        node = node->next;
+    }
 }
