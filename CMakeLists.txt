@@ -9,4 +9,6 @@ add_executable(TheoreticalInterpreter
         main.c
         main.h
         lexical/lexicalanalyzer.c
-        lexical/lexicalanalyzer.h)
+        lexical/lexicalanalyzer.h
+        Parser/parser.c
+        Parser/parser.h)
