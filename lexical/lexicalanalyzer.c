@@ -119,6 +119,16 @@ TokenStruct *lexicalAnalysis(FILE *file) {
                     break;
                 }
                 c = getc(file);
+                while (c == ' ') {
+                    c = getc(file);
+                }
+                if (c != '{') {
+                    currentToken->token = ERROR;
+                    currentToken->next = malloc(sizeof(TokenStruct));
+                    currentToken = currentToken->next;
+                    break;
+                }
+                c = getc(file);
                 currentToken->token = Loop;
                 int * value = malloc(sizeof(int));
                 *value = xstruct2->x;
